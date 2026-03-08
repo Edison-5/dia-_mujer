@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Mi Preciosa</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:black;
+color:white;
+text-align:center;
+overflow-x:hidden;
+}
+
+/* ESTRELLAS */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+/* TITULO */
+
+.titulo{
+margin-top:40px;
+font-size:45px;
+font-weight:bold;
+text-shadow:0 0 20px #ff4da6,0 0 40px #ff1a75;
+animation:latido 2s infinite;
+}
+
+@keyframes latido{
+0%{transform:scale(1)}
+50%{transform:scale(1.08)}
+100%{transform:scale(1)}
+}
+
+/* FRASES */
+
+.frase{
+margin-top:20px;
+font-size:26px;
+color:#ffd6f0;
+text-shadow:0 0 10px #ff66cc;
+min-height:40px;
+}
+
+/* GALERIA */
+
+.galeria{
+margin-top:40px;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:30px;
+}
+
+.foto{
+width:230px;
+border-radius:20px;
+box-shadow:0 0 25px #ff66cc;
+transition:0.4s;
+}
+
+.foto:hover{
+transform:scale(1.1);
+}
+
+/* MENSAJE FINAL */
+
+.final{
+margin-top:60px;
+font-size:28px;
+color:#ffb3d9;
+text-shadow:0 0 15px #ff66cc;
+margin-bottom:60px;
+}
+
+/* CELULAR */
+
+@media (max-width:700px){
+
+.titulo{font-size:32px}
+.frase{font-size:20px}
+.foto{width:150px}
+.final{font-size:22px}
+
+}
+
+/* EMOJIS */
+
+.emoji{
+position:absolute;
+font-size:30px;
+animation:flotar 3s linear forwards;
+}
+
+@keyframes flotar{
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-200px);opacity:0}
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="estrellas"></canvas>
+
+<audio id="musica" loop controls>
+<source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<div class="titulo">Para Mi Preciosa 🥺🫶</div>
+
+<div class="frase" id="frase"></div>
+
+<div class="galeria">
+<img src="foto1.jpg" class="foto">
+<img src="foto2.jpg" class="foto">
+<img src="foto3.jpg" class="foto">
+<img src="foto4.jpg" class="foto">
+</div>
+
+<div class="final">
+Esto Es Para Ti 🥺💗<br>
+Con Todo Mi Amor 🫶💞<br>
+Edison 💕
+</div>
+
+<script>
+
+/* FRASES */
+
+const frases=[
+"Mi Amor 🥺💗",
+"Mi Preciosa 🫶💕",
+"Mi Chinita 😍💞",
+"Mi Luz 💗",
+"Mi Nina Hermosa 🥺💕",
+"La Razon De Mi Sonrisa 🫶💗",
+"La Persona Que Ilumina Mis Dias 💞",
+"Mi Alegria 😍",
+"Mi Todo 🥺💗",
+"Te Amo Mucho 💕"
+]
+
+let i=0
+
+setInterval(()=>{
+document.getElementById("frase").innerText=frases[i]
+i=(i+1)%frases.length
+},2000)
+
+/* ESTRELLAS */
+
+const canvas=document.getElementById("estrellas")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let estrellas=[]
+
+for(let i=0;i<200;i++){
+estrellas.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*2
+})
+}
+
+function animar(){
+
+ctx.fillStyle="black"
+ctx.fillRect(0,0,canvas.width,canvas.height)
+
+ctx.fillStyle="white"
+
+estrellas.forEach(e=>{
+ctx.fillRect(e.x,e.y,e.size,e.size)
+
+e.y+=0.3
+
+if(e.y>canvas.height){
+e.y=0
+e.x=Math.random()*canvas.width
+}
+
+})
+
+requestAnimationFrame(animar)
+
+}
+
+animar()
+
+/* MUSICA */
+
+document.addEventListener("click",function(){
+
+let audio=document.getElementById("musica")
+
+audio.play()
+
+})
+
+/* EMOJIS */
+
+document.addEventListener("click",function(e){
+
+const emoji=document.createElement("div")
+emoji.className="emoji"
+
+const lista=["🥺","🫶","💗","💞","😍","💕"]
+
+emoji.innerHTML=lista[Math.floor(Math.random()*lista.length)]
+
+emoji.style.left=e.clientX+"px"
+emoji.style.top=e.clientY+"px"
+
+document.body.appendChild(emoji)
+
+setTimeout(()=>emoji.remove(),3000)
+
+})
+
+</script>
+
+</body>
+</html>
